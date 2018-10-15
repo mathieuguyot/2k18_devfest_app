@@ -1,5 +1,8 @@
 // Initial state
 const initialState = {
+    speakersMap: undefined,
+    speakersLoaded: false,
+    errorMessage:  "",
 }
 
 // Action types
@@ -12,14 +15,14 @@ export const fetchSpeakers = () => ({
     type: FETCH_SPEAKERS
 });
 
-export const fetchSpeakersSuccess = speakers => ({
+export const fetchSpeakersSuccess = speakersMap => ({
     type: FETCH_SPEAKERS_SUCCESS,
-    payload: { speakers: speakers }
+    payload: { speakersMap: speakersMap }
 });
 
 export const fetchSpeakersFail = errorMessage => ({
     type: FETCH_SPEAKERS_FAIL,
-    payload: {errorMessage: errorMessage}
+    payload: { errorMessage: errorMessage }
 });
 
 // Reducer
@@ -27,20 +30,26 @@ export default function reducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_SPEAKERS:
             return {
-                ...state
+                ...state,
+                speakersLoaded: false,
+                errorMessage: "",
+                speakersMap: undefined,
             };
 
         case FETCH_SPEAKERS_SUCCESS:
             return {
-                ...state
+                ...state,
+                speakersMap: action.payload.speakersMap,
+                speakersLoaded: true
             };
 
         case FETCH_SPEAKERS_FAIL:
             return {
-                ...state
+                ...state,
+                errorMessage: action.payload.errorMessage,
             };
 
         default:
             return state;
-    }
+    }   
 }

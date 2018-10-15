@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 import HomeComp from './HomeComp';
 import SessionList from './SessionList';
+import SpeakerList from './SpeakerList';
 
 export default Navigator = createStackNavigator (
     {
@@ -9,6 +10,9 @@ export default Navigator = createStackNavigator (
       },
       SessionList: {
         screen: SessionList,
+      },
+      SpeakerList: {
+        screen: SpeakerList,
       },
     },
     {

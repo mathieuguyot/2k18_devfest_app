@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Button, Text, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchSpeakers } from '../redux/state/speakers/index';
+import { fetchSessions } from '../redux/state/sessions/index';
 
 class HomeComp extends Component {
   
@@ -15,11 +16,12 @@ class HomeComp extends Component {
   }
 
   onSpeakerButtonClicked() {
-    console.log("speaker button clicked");
+    this.props.navigation.navigate('SpeakerList');
   }
 
   componentDidMount() {
     this.props.dispatch(fetchSpeakers());
+    this.props.dispatch(fetchSessions());
   }
 
   render() {
@@ -66,7 +68,7 @@ class HomeComp extends Component {
               borderWidth: 0,
               elevation: 0,
             }}
-            onPress={this.onSpeakerButtonClicked}
+            onPress={this.onSpeakerButtonClicked.bind(this)}
           />
         </View>
     );
