@@ -1,3 +1,5 @@
+// Model that represents a session
+// To retrieve session schedule, contact scheduleContainer model
 export default class Session {
 
     constructor(sessionJsonData) {
@@ -11,7 +13,11 @@ export default class Session {
         this.category = sessionJsonData.category;
         this.language = sessionJsonData.language;
         this.complexity = sessionJsonData.complexity;
-        this.place = sessionJsonData.track.place;
+        this.speakers = sessionJsonData.speakers;
+        // Some session do not take place in a specific place (eg. lunch)
+        if(sessionJsonData.track != undefined) {
+            this.place = sessionJsonData.track.place;
+        }
     }
 
 }

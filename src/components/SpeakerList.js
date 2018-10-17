@@ -14,20 +14,18 @@ class SpeakerList extends Component {
   };
 
   render() {
+    let speakersRows = [];
+    for (let speakerKey of this.props.speakerContainer.getSpeakersKeys()) {
+      let item = this.props.speakerContainer.getSpeaker(speakerKey);
+      speakersRows.push(<SpeakerListItem key={speakerKey} speakerName={item.name} />);
+    }
       return (
         <View style={{ flex: 1 }}>
           <View style={styles.timeline} />
             <ScrollView>
               <View style={styles.container}>
                 <View>
-                { Object.keys(this.props.speakersMap).map(function (key) {
-                  let item = this.props.speakersMap[key];
-                if(isNaN(key)) 
-                  return;                  
-              return (
-                <SpeakerListItem key={key} speakerName={item.name} />
-                );
-            }, this)} 
+                {speakersRows} 
               </View>
               </View>  
             </ScrollView>
@@ -82,7 +80,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-      speakersMap: state.speakers.speakersMap
+      speakerContainer: state.speakers.speakerContainer
     }
   }
 

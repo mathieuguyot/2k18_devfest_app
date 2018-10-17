@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, { Component } from 'react';
+import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { Text } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 const SessionListItem = ({ title, speakers }) => (
   <View style={styles.sessionListItem}>
@@ -9,35 +10,65 @@ const SessionListItem = ({ title, speakers }) => (
     </View>
     <View styles={styles.sessionItemTextbox}>
       <Text style={styles.sessionItemTitle}>{title}</Text>
-      <Text style={styles.sessionItemSpeakers}>
-        {speakers.map(s => s.name).join(', ')}
+       <Text style={styles.sessionItemSpeakers}>
+        {speakers}
       </Text>
     </View>
   </View>
 );
 
-const SessionList = ({ sessions }) => (
-  <View style={{ flex: 1 }}>
+class SessionList extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  static navigationOptions = {
+    title: 'Sessions',
+  };
+
+  render() {
+    let sessionsRows = [];
+    for (let sessionKey of this.props.sessionContainer.getSessionsKeys()) {
+      let item = this.props.sessionContainer.getSession(sessionKey);
+      let itemName = item.short_title;
+      if(itemName == undefined) {
+        itemName = item.full_title;
+      }
+      let speakersNames = "";
+      if(item.speakers != undefined) {
+      for(let speakerId of item.speakers) {
+        if(speakersNames != "") {
+          speakersNames += ", "
+        }
+        let speaker = this.props.speakerContainer.getSpeaker(speakerId)
+        speakersNames += speaker.name
+        }
+      }
+      sessionsRows.push(<SessionListItem key={sessionKey} title={itemName} speakers={speakersNames} />);
+    }
+    return (
+    <View style={{ flex: 1 }}>
     <View style={styles.timeline} />
     <ScrollView>
       <View style={styles.container}>
         <View>
-          {sessions.map(session => (
-            <SessionListItem
-              key={session.title}
-              title={session.title}
-              speakers={session.speakers}
-            />
-          ))}
+          {sessionsRows}
         </View>
       </View>
     </ScrollView>
   </View>
-);
+    );
+  }
 
+}
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#3d4746',
     padding: 24,
     justifyContent: 'flex-start',
     alignItems: 'flex-start'
@@ -74,19 +105,29 @@ const styles = StyleSheet.create({
     paddingTop: 16
   },
   sessionItemTextbox: {
-    height: 50,
+    width: 0,
+    flexGrow: 1,
     flex: 1,
-    alignItems: 'flex-start'
   },
   sessionItemTitle: {
     fontWeight: 'bold',
     fontSize: 15,
-    color: 'white'
+    color: 'white',
+    width: windowWidth-90,
+    flexGrow: 1,
+    flex: 1,
   },
   sessionItemSpeakers: {
     color: '#999',
-    fontSize: 13
+    fontSize: 11,
   }
 });
 
-export default SessionList;
+const mapStateToProps = state => {
+  return {
+    sessionContainer: state.sessions.sessionContainer,
+    speakerContainer: state.speakers.speakerContainer
+  }
+}
+
+export default connect(mapStateToProps, null)(SessionList);

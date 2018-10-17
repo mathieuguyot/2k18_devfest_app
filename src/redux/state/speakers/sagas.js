@@ -1,17 +1,13 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import client, { endpoints } from '../../../api';
 import { FETCH_SPEAKERS, fetchSpeakersSuccess, fetchSpeakersFail } from './index';
-import Speaker from '../../../models/Speaker';
+import SpeakerContainer from '../../../models/SpeakerContainer';
 
 export function* fetchSpeakersSaga(params) {
-    console.log("la")
     try {
         let response = yield call(endpoints.speakers.getAll);
-        let speakersMap = new Map();
-        for(let key in response.data) {
-            speakersMap[key] = new Speaker(response.data[key]);
-        }
-        yield put(fetchSpeakersSuccess(speakersMap));
+        let speakerContainer = new SpeakerContainer(response.data);
+        yield put(fetchSpeakersSuccess(speakerContainer));
     } catch (error) {
         yield put(fetchSpeakersFail("Impossible de retrouver la liste des présentateurs :("));
     }

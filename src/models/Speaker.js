@@ -1,3 +1,4 @@
+// Model that represents a speaker
 export default class Speaker {
     
     constructor(speakerJsonData) {

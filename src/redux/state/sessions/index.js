@@ -1,6 +1,6 @@
 // Initial state
 const initialState = {
-    sessionsMap: undefined,
+    sessionContainer: undefined,
     sessionsLoaded: false,
     errorMessage: "",
 }
@@ -15,9 +15,9 @@ export const fetchSessions = () => ({
     type: FETCH_SESSIONS
 });
 
-export const fetchSessionsSuccess = sessionsMap => ({
+export const fetchSessionsSuccess = sessionContainer => ({
     type: FETCH_SESSIONS_SUCCESS,
-    payload: { sessionsMap: sessionsMap }
+    payload: { sessionContainer: sessionContainer }
 });
 
 export const fetchSessionsFail = errorMessage => ({
@@ -33,14 +33,13 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 sessionsLoaded: false,
                 errorMessage: "",
-                sessionsMap: undefined,
+                sessionContainer: undefined,
             };
         
-        case FETCH_SESSIONS_SUCCESS: 
-            console.log(sessionsMap);
+        case FETCH_SESSIONS_SUCCESS:
             return {
                 ...state,
-                sessionsMap: action.payload.sessionsMap,
+                sessionContainer: action.payload.sessionContainer,
                 sessionsLoaded: true,
             }
 

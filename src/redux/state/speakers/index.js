@@ -1,6 +1,6 @@
 // Initial state
 const initialState = {
-    speakersMap: undefined,
+    speakerContainer: undefined,
     speakersLoaded: false,
     errorMessage:  "",
 }
@@ -15,9 +15,9 @@ export const fetchSpeakers = () => ({
     type: FETCH_SPEAKERS
 });
 
-export const fetchSpeakersSuccess = speakersMap => ({
+export const fetchSpeakersSuccess = speakerContainer => ({
     type: FETCH_SPEAKERS_SUCCESS,
-    payload: { speakersMap: speakersMap }
+    payload: { speakerContainer: speakerContainer }
 });
 
 export const fetchSpeakersFail = errorMessage => ({
@@ -33,17 +33,18 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 speakersLoaded: false,
                 errorMessage: "",
-                speakersMap: undefined,
+                speakerContainer: undefined,
             };
 
         case FETCH_SPEAKERS_SUCCESS:
             return {
                 ...state,
-                speakersMap: action.payload.speakersMap,
+                speakerContainer: action.payload.speakerContainer,
                 speakersLoaded: true
             };
 
         case FETCH_SPEAKERS_FAIL:
+            console("ERROR")
             return {
                 ...state,
                 errorMessage: action.payload.errorMessage,
