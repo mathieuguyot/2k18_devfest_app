@@ -1,6 +1,6 @@
-import { takeLatest, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put } from 'redux-saga/effects';
 import client, { endpoints } from '../../../api';
-import { fetchSessionsFail, FETCH_SESSIONS } from './index';
+import { fetchSessionsFail, FETCH_SESSIONS, fetchSessionsSuccess } from './index';
 import Session from '../../../models/Session';
 
 export function* fetchSessionsSaga(params) {
@@ -11,9 +11,9 @@ export function* fetchSessionsSaga(params) {
         for(let key in response.data) {
             sessionsMap[key] = new Session(response.data[key]);
         }
-        yield put(fetchSpeakersSuccess(sessionsMap));
+        yield put(fetchSessionsSuccess(sessionsMap));
     } catch (error) {
-        yield put(fetchSessionsFail("Impossible de retrouver la liste des session :("));
+        yield put(fetchSessionsFail("Impossible de retrouver la liste des sessions :("));
     }
 }
 
