@@ -4,6 +4,7 @@ import { Button, Text, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchSpeakers } from '../redux/state/speakers/index';
 import { fetchSessions } from '../redux/state/sessions/index';
+import { fetchSchedule } from '../redux/state/schedule/index';
 
 class HomeComp extends Component {
   
@@ -22,6 +23,7 @@ class HomeComp extends Component {
   componentDidMount() {
     this.props.dispatch(fetchSpeakers());
     this.props.dispatch(fetchSessions());
+    this.props.dispatch(fetchSchedule());
   }
 
   render() {

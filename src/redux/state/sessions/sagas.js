@@ -7,6 +7,7 @@ export function* fetchSessionsSaga(params) {
     try {
         let response = yield call(endpoints.sessions.getAll);
         let sessionContainer = new SessionContainer(response.data);
+        console.log("sessions loaded");
         yield put(fetchSessionsSuccess(sessionContainer));
     } catch (error) {
         console.log(error);

@@ -11,6 +11,9 @@ export const endpoints = {
     },
     sessions: {
         getAll:() => client.get(`/sessions`)
+    },
+    schedule: {
+        getAll:() => client.get(`/schedule`)
     }
 };
 

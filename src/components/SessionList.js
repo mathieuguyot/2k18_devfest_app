@@ -3,10 +3,10 @@ import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-const SessionListItem = ({ title, speakers }) => (
+const SessionListItem = ({startTime, endTime, title, speakers }) => (
   <View style={styles.sessionListItem}>
     <View style={styles.sessionItemBadge}>
-      <Text style={styles.sessionItemBadgeText}>12:30</Text>
+      <Text style={styles.sessionItemBadgeText}>{startTime}{"\n"}{endTime}</Text>
     </View>
     <View styles={styles.sessionItemTextbox}>
       <Text style={styles.sessionItemTitle}>{title}</Text>
@@ -41,11 +41,18 @@ class SessionList extends Component {
         if(speakersNames != "") {
           speakersNames += ", "
         }
-        let speaker = this.props.speakerContainer.getSpeaker(speakerId)
-        speakersNames += speaker.name
+        let speaker = this.props.speakerContainer.getSpeaker(speakerId);
+        speakersNames += speaker.name;
         }
       }
-      sessionsRows.push(<SessionListItem key={sessionKey} title={itemName} speakers={speakersNames} />);
+      let timeSlot = this.props.timeSlotContainer.getTimeSlot(sessionKey);
+      let startTime = "?";
+      let endTime = "?"
+      if(timeSlot != undefined) {
+        startTime = timeSlot.startTime;
+        endTime = timeSlot.endTime;
+      }
+      sessionsRows.push(<SessionListItem startTime={startTime} endTime={endTime} key={sessionKey} title={itemName} speakers={speakersNames} />);
     }
     return (
     <View style={{ flex: 1 }}>
@@ -102,7 +109,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     textAlign: 'center',
-    paddingTop: 16
+    paddingTop: 7
   },
   sessionItemTextbox: {
     width: 0,
@@ -126,7 +133,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     sessionContainer: state.sessions.sessionContainer,
-    speakerContainer: state.speakers.speakerContainer
+    speakerContainer: state.speakers.speakerContainer,
+    timeSlotContainer: state.schedule.timeSlotContainer,
   }
 }
 
