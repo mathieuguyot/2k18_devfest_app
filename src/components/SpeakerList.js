@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -17,7 +17,7 @@ class SpeakerList extends Component {
     let speakersRows = [];
     for (let speakerKey of this.props.speakerContainer.getSpeakersKeys()) {
       let item = this.props.speakerContainer.getSpeaker(speakerKey);
-      speakersRows.push(<SpeakerListItem key={speakerKey} speakerName={item.name} />);
+      speakersRows.push(<SpeakerListItem props={this.props} speakerKey={speakerKey} key={speakerKey} speakerName={item.name} />);
     }
       return (
         <View style={{ flex: 1 }}>
@@ -35,14 +35,18 @@ class SpeakerList extends Component {
 
 }
 
-const SpeakerListItem = ({ speakerName }) => (
-  <View style={styles.sessionListItem}>
-    <View style={styles.sessionItemBadge}>
+const SpeakerListItem = ({ props, speakerName, speakerKey}) => (
+  <TouchableOpacity style={styles.sessionListItem} onPress={()=>
+    { 
+      props.navigation.navigate('Speaker', {speakerKey: speakerKey});
+    }
+  }>
+  <View style={styles.sessionItemBadge}>
     </View>
     <View styles={styles.sessionItemTextbox}>
       <Text style={styles.sessionItemTitle}>{speakerName}</Text>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
