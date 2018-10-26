@@ -204,7 +204,7 @@ const mapStateToProps = state => {
   return {
     sessionContainer: state.sessions.sessionContainer,
     speakerContainer: state.speakers.speakerContainer,
-    schedule: state.schedule.data
+    schedule: state.schedule.days
   };
 };
 
