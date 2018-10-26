@@ -3,6 +3,7 @@ import HomeComp from './HomeComp';
 import SessionList from './SessionList';
 import SpeakerList from './SpeakerList';
 import Speaker from './Speaker';
+import DeviceInfos from './DeviceInfos';
 
 export default Navigator = createStackNavigator (
     {
@@ -18,6 +19,9 @@ export default Navigator = createStackNavigator (
       Speaker: {
         screen: Speaker,
       },
+      DeviceInfos:{
+        screen: DeviceInfos,
+      }
     },
     {
         initialRouteName: 'Home',

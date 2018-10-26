@@ -20,11 +20,10 @@ class HomeComp extends Component {
     this.props.navigation.navigate('SpeakerList');
   }
 
-  onDataUpdateButtonClicked() {
-    this.props.dispatch(fetchSpeakers());
-    this.props.dispatch(fetchSessions());
-    this.props.dispatch(fetchSchedule());
+  onPhoneInfoButtonClicked() {
+    this.props.navigation.navigate('DeviceInfos');
   }
+  
 
   componentDidMount() {
     if(!this.props.speakersLoaded) {
@@ -75,7 +74,7 @@ class HomeComp extends Component {
             }}
             onPress={this.onSessionButtonClicked.bind(this)}
           />
-          <Button 
+          <Button
             title='Voir les présentateurs'
             icon={
               <Image
@@ -96,7 +95,7 @@ class HomeComp extends Component {
             onPress={this.onSpeakerButtonClicked.bind(this)}
           />
           <Button 
-            title='Mettre à jour les données'
+            title='Informations du téléphone'
             icon={
               <Image
                 source={require('../../assets/planet2_logo.png')}
@@ -113,7 +112,7 @@ class HomeComp extends Component {
               borderWidth: 0,
               elevation: 0,
             }}
-            onPress={this.onDataUpdateButtonClicked.bind(this)}
+            onPress={this.onPhoneInfoButtonClicked.bind(this)}
           />
         </View>
     );
