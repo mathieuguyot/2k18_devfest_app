@@ -55,16 +55,16 @@ class SessionList extends Component {
       sessionsRows.push(<SessionListItem startTime={startTime} endTime={endTime} key={sessionKey} title={itemName} speakers={speakersNames} />);
     }
     return (
-    <View style={{ flex: 1 }}>
-    <View style={styles.timeline} />
-    <ScrollView>
-      <View style={styles.container}>
-        <View>
-          {sessionsRows}
-        </View>
+      <View style={{ flex: 1 }}>
+        <View style={styles.timeline} />
+        <ScrollView>
+          <View style={styles.container}>
+            <View>
+              {sessionsRows}
+            </View>
+          </View>
+        </ScrollView>
       </View>
-    </ScrollView>
-  </View>
     );
   }
 

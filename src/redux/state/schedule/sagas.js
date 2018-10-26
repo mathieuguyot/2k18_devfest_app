@@ -8,7 +8,7 @@ export function* fetchScheduleSaga(params) {
         let response = yield call(endpoints.schedule.getAll);
         let timeSlotContainer = new TimeSlotContainer(response.data);
         console.log("Schedule loaded");
-        yield put(fetchScheduleSuccess(timeSlotContainer));
+        yield put(fetchScheduleSuccess(timeSlotContainer, response.data));
     } catch (error) {
         console.log(error);
         yield put(fetchScheduleFail("Impossible de retrouver le planning des sessions"));

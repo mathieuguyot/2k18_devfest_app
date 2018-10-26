@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Button, Text, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { fetchSpeakers } from '../redux/state/speakers/index';
-import { fetchSessions } from '../redux/state/sessions/index';
-import { fetchSchedule } from '../redux/state/schedule/index';
+import { fetchSpeakers, rehydrateSpeakers } from '../redux/state/speakers/index';
+import { fetchSessions, rehydrateSessions } from '../redux/state/sessions/index';
+import { fetchSchedule, rehydrateSchedule } from '../redux/state/schedule/index';
 
 class HomeComp extends Component {
   
@@ -20,10 +20,33 @@ class HomeComp extends Component {
     this.props.navigation.navigate('SpeakerList');
   }
 
-  componentDidMount() {
+  onDataUpdateButtonClicked() {
     this.props.dispatch(fetchSpeakers());
     this.props.dispatch(fetchSessions());
     this.props.dispatch(fetchSchedule());
+  }
+
+  componentDidMount() {
+    if(!this.props.speakersLoaded) {
+      this.props.dispatch(fetchSpeakers());
+    } else {
+      console.log("speakers loaded from phone memory");
+      this.props.dispatch(rehydrateSpeakers(this.props.speakersJsonStr));
+    }
+
+    if(!this.props.sessionsLoaded) {
+      this.props.dispatch(fetchSessions());
+    } else {
+      console.log("sessions loaded from phone memory");
+      this.props.dispatch(rehydrateSessions(this.props.sessionJsonStr));
+    }
+    
+    if(!this.props.timeSlotsLoaded) {
+      this.props.dispatch(fetchSchedule());
+    } else {
+      console.log("schedules loaded from phone memory");
+      this.props.dispatch(rehydrateSchedule(this.props.timeSlotJsonStr));
+    }
   }
 
   render() {
@@ -72,6 +95,26 @@ class HomeComp extends Component {
             }}
             onPress={this.onSpeakerButtonClicked.bind(this)}
           />
+          <Button 
+            title='Mettre à jour les données'
+            icon={
+              <Image
+                source={require('../../assets/planet2_logo.png')}
+                style={styles.planet1_logo}
+              />
+            }
+            buttonStyle={{
+              marginTop: 25,
+              backgroundColor: '#bf5022',
+              width: 300,
+              height: 45,
+              borderColor: "#ffffff",
+              borderRadius: 100,
+              borderWidth: 0,
+              elevation: 0,
+            }}
+            onPress={this.onDataUpdateButtonClicked.bind(this)}
+          />
         </View>
     );
   }
@@ -97,4 +140,15 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null, null)(HomeComp);
+const mapStateToProps = state => {
+  return {
+    timeSlotsLoaded: state.schedule.timeSlotsLoaded,
+    speakersLoaded: state.speakers.speakersLoaded,
+    sessionsLoaded: state.sessions.sessionsLoaded,
+    speakersJsonStr: state.speakers.speakersJsonStr,
+    sessionJsonStr: state.sessions.sessionJsonStr,
+    timeSlotJsonStr: state.schedule.timeSlotJsonStr
+  }
+}
+
+export default connect(mapStateToProps, null)(HomeComp);

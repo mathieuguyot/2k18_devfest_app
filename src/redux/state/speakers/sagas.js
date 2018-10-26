@@ -8,7 +8,7 @@ export function* fetchSpeakersSaga(params) {
         let response = yield call(endpoints.speakers.getAll);
         let speakerContainer = new SpeakerContainer(response.data);
         console.log("Speakers loaded");
-        yield put(fetchSpeakersSuccess(speakerContainer));
+        yield put(fetchSpeakersSuccess(speakerContainer, response.data));
     } catch (error) {
         console.log(error);
         yield put(fetchSpeakersFail("Impossible de retrouver la liste des présentateurs :("));
