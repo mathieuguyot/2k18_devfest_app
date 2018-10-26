@@ -12,7 +12,7 @@ export function* fetchScheduleSaga(params) {
     let response = yield call(endpoints.schedule.getAll);
     let schedule = new Schedule(response.data);
     console.log('Schedule loaded');
-    yield put(fetchScheduleSuccess(schedule));
+    yield put(fetchScheduleSuccess(schedule, response.data));
   } catch (error) {
     console.log(error);
     yield put(

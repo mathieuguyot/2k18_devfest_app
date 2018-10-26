@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    timeSlotsLoaded: state.schedule.timeSlotsLoaded,
+    timeSlotsLoaded: state.schedule.loaded,
     speakersLoaded: state.speakers.speakersLoaded,
     sessionsLoaded: state.sessions.sessionsLoaded,
     speakersJsonStr: state.speakers.speakersJsonStr,

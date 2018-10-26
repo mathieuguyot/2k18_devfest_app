@@ -24,7 +24,6 @@ class DeviceInfos extends Component {
         this.deviceName = Expo.Constants.deviceName;
         this.deviceUUID = Expo.Constants.deviceId;
         NetInfo.getConnectionInfo().then((connectionInfo) => {
-            console.log("ici")
             this.setState({
                 deviceConnectionTypeMain: connectionInfo.type,
                 deviceConnectionTypeDetail: connectionInfo.effectiveType,
@@ -43,7 +42,6 @@ class DeviceInfos extends Component {
     }
 
     render() {
-        console.log("la")
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>

@@ -22,8 +22,8 @@ export const fetchSchedule = () => ({
 export const fetchScheduleSuccess = (schedule, scheduleJsonStr) => ({
   type: FETCH_SCHEDULE_SUCCESS,
   payload: {
-    schedule,
-    scheduleJsonStr
+    schedule: schedule,
+    scheduleJsonStr: scheduleJsonStr
   }
 });
 
@@ -32,9 +32,9 @@ export const fetchScheduleFail = errorMessage => ({
   payload: { errorMessage: errorMessage }
 });
 
-export const rehydrateSchedule = timeSlotJsonStr => ({
+export const rehydrateSchedule = scheduleJsonStr => ({
   type: REHYDRATE_SCHEDULE,
-  payload: { timeSlotJsonStr: timeSlotJsonStr }
+  payload: { scheduleJsonStr: scheduleJsonStr }
 });
 
 // Reducer
@@ -54,7 +54,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         days: action.payload.schedule,
         loaded: true,
-        scheduleJsonStr: action.payload.timeSlotJsonStr
+        scheduleJsonStr: action.payload.scheduleJsonStr
       };
 
     case FETCH_SCHEDULE_FAIL:
@@ -66,7 +66,7 @@ export default function reducer(state = initialState, action) {
     case REHYDRATE_SCHEDULE:
       return {
         ...state,
-        days: new Schedule(action.payload.schedule)
+        days: new Schedule(action.payload.scheduleJsonStr)
       };
 
     default:

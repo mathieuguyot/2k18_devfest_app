@@ -3,6 +3,7 @@ import ScheduleDay from './ScheduleDay';
 
 // Immutable container of timeSlots
 export default class Schedule {
+  
   // This constructor may fail regarding of the json data provided
   // Catch any construction of a new time slot container
   constructor(timeSlotsJsonData) {
