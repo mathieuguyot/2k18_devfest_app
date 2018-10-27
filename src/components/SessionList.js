@@ -13,15 +13,18 @@ const SessionListItem = ({ startTime, title, speakers, badge, link }) => {
   }
   return (
     <View style={styles.sessionListItem}>
+      {link &&
+        (badge ? (
+          <View style={styles.badgeLink} />
+        ) : (
+          <View style={styles.smallBadgeLink} />
+        ))}
       {badge ? (
         <View style={styles.sessionItemBadge}>
           <Text style={styles.sessionItemBadgeText}>{startTime}</Text>
-          {link && <View style={styles.badgeLink} />}
         </View>
       ) : (
-        <View style={styles.sessionItemSmallBadge}>
-          {link && <View style={styles.smallBadgeLink} />}
-        </View>
+        <View style={styles.sessionItemSmallBadge} />
       )}
       <View style={styles.sessionItemTextbox}>
         <Text style={styles.sessionItemTitle}>{title}</Text>
@@ -106,7 +109,6 @@ class SessionList extends Component {
   }
 }
 
-const windowWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -139,12 +141,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   sessionListItem: {
-    height: 50,
+    height: 72,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20
+    marginBottom: -2
   },
   sessionItemBadge: {
     borderRadius: 9999,
@@ -154,20 +156,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 3
   },
-  badgeLink: {
-    height: 50,
-    width: 2,
-    marginTop: -2,
-    marginLeft: 24,
-    backgroundColor: 'white'
-  },
-  smallBadgeLink: {
-    height: 68,
-    width: 2,
-    marginTop: 5,
-    marginLeft: 4,
-    backgroundColor: 'white'
-  },
   sessionItemSmallBadge: {
     borderRadius: 9999,
     width: 10,
@@ -175,6 +163,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginRight: 30,
     marginLeft: 23
+  },
+  badgeLink: {
+    position: 'absolute',
+    height: 85,
+    width: 2,
+    top: 25,
+    left: 27,
+    backgroundColor: 'white'
+  },
+  smallBadgeLink: {
+    position: 'absolute',
+    height: 85,
+    width: 2,
+    top: 25,
+    left: 27,
+    backgroundColor: 'white'
   },
   sessionItemBadgeText: {
     color: '#bf5022',

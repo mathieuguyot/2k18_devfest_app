@@ -4,45 +4,47 @@ import { Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 class SpeakerList extends Component {
-  
   constructor(props) {
-    super(props); 
+    super(props);
   }
 
   static navigationOptions = {
-    title: 'Présentateurs',
+    title: 'Présentateurs'
   };
 
   render() {
     let speakersRows = [];
     for (let speakerKey of this.props.speakerContainer.getSpeakersKeys()) {
       let item = this.props.speakerContainer.getSpeaker(speakerKey);
-      speakersRows.push(<SpeakerListItem props={this.props} speakerKey={speakerKey} key={speakerKey} speakerName={item.name} />);
+      speakersRows.push(
+        <SpeakerListItem
+          props={this.props}
+          speakerKey={speakerKey}
+          key={speakerKey}
+          speakerName={item.name}
+        />
+      );
     }
-      return (
-        <View style={{ flex: 1 }}>
-          <View style={styles.timeline} />
-            <ScrollView>
-              <View style={styles.container}>
-                <View>
-                {speakersRows} 
-              </View>
-              </View>  
-            </ScrollView>
-        </View>
+    return (
+      <View style={{ flex: 1 }}>
+        <ScrollView>
+          <View style={styles.container}>
+            <View>{speakersRows}</View>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
-
 }
 
-const SpeakerListItem = ({ props, speakerName, speakerKey}) => (
-  <TouchableOpacity style={styles.sessionListItem} onPress={()=>
-    { 
-      props.navigation.navigate('Speaker', {speakerKey: speakerKey});
-    }
-  }>
-  <View style={styles.sessionItemBadge}>
-    </View>
+const SpeakerListItem = ({ props, speakerName, speakerKey }) => (
+  <TouchableOpacity
+    style={styles.sessionListItem}
+    onPress={() => {
+      props.navigation.navigate('Speaker', { speakerKey: speakerKey });
+    }}
+  >
+    <View style={styles.sessionItemBadge} />
     <View styles={styles.sessionItemTextbox}>
       <Text style={styles.sessionItemTitle}>{speakerName}</Text>
     </View>
@@ -56,13 +58,6 @@ const styles = StyleSheet.create({
     padding: 24,
     justifyContent: 'flex-start',
     alignItems: 'flex-start'
-  },
-  timeline: {
-    marginLeft: 50,
-    width: 5,
-    height: 2000,
-    marginBottom: -2000,
-    backgroundColor: 'white'
   },
   sessionListItem: {
     height: 50,
@@ -79,13 +74,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginRight: 10,
     marginLeft: 3
-  },
+  }
 });
 
 const mapStateToProps = state => {
-    return {
-      speakerContainer: state.speakers.speakerContainer
-    }
-  }
+  return {
+    speakerContainer: state.speakers.speakerContainer
+  };
+};
 
-export default connect(mapStateToProps, null)(SpeakerList);
+export default connect(
+  mapStateToProps,
+  null
+)(SpeakerList);
