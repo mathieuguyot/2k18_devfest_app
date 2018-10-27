@@ -20,7 +20,7 @@ const SessionListItem = ({
     }
   }
   return (
-    <TouchableOpacity
+    <View
       style={styles.sessionListItem}
       onPress={() => {
         navigation.navigate('Session', { sessionId });
@@ -32,22 +32,29 @@ const SessionListItem = ({
         ) : (
           <View style={styles.smallBadgeLink} />
         ))}
-      {badge ? (
-        <View style={styles.sessionItemBadge}>
-          <Text style={styles.sessionItemBadgeText}>{startTime}</Text>
-        </View>
-      ) : (
-        <View style={styles.sessionItemSmallBadge} />
-      )}
-      <View style={styles.sessionItemTextbox}>
-        <Text style={styles.sessionItemTitle}>{title}</Text>
-        {speakers && (
-          <Text style={styles.sessionItemSpeakers}>
-            {speakersDisplayed.join(', ')}
-          </Text>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Session', { sessionId });
+        }}
+        style={styles.sessionTouchableItem}
+      >
+        {badge ? (
+          <View style={styles.sessionItemBadge}>
+            <Text style={styles.sessionItemBadgeText}>{startTime}</Text>
+          </View>
+        ) : (
+          <View style={styles.sessionItemSmallBadge} />
         )}
-      </View>
-    </TouchableOpacity>
+        <View style={styles.sessionItemTextbox}>
+          <Text style={styles.sessionItemTitle}>{title}</Text>
+          {speakers && (
+            <Text style={styles.sessionItemSpeakers}>
+              {speakersDisplayed.join(', ')}
+            </Text>
+          )}
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -176,6 +183,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: -2
   },
+  sessionTouchableItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   sessionItemBadge: {
     borderRadius: 9999,
     width: 50,
@@ -194,9 +207,9 @@ const styles = StyleSheet.create({
   },
   badgeLink: {
     position: 'absolute',
-    height: 85,
+    height: 50,
     width: 2,
-    top: 25,
+    top: 60,
     left: 27,
     backgroundColor: 'white'
   },
