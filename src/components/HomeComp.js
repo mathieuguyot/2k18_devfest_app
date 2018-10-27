@@ -17,7 +17,7 @@ import {
 
 class HomeComp extends Component {
   static navigationOptions = {
-    title: 'DevFest Nantes 2018'
+    title: 'Accueil'
   };
 
   onSessionButtonClicked() {

@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-const SessionListItem = ({ startTime, title, speakers, badge, link }) => {
+const SessionListItem = ({
+  navigation,
+  sessionId,
+  startTime,
+  title,
+  speakers,
+  badge,
+  link
+}) => {
   let speakersDisplayed = [];
   if (speakers) {
     speakersDisplayed = speakers.map(s => s.name);
@@ -12,7 +20,12 @@ const SessionListItem = ({ startTime, title, speakers, badge, link }) => {
     }
   }
   return (
-    <View style={styles.sessionListItem}>
+    <TouchableOpacity
+      style={styles.sessionListItem}
+      onPress={() => {
+        navigation.navigate('Session', { sessionId });
+      }}
+    >
       {link &&
         (badge ? (
           <View style={styles.badgeLink} />
@@ -34,15 +47,21 @@ const SessionListItem = ({ startTime, title, speakers, badge, link }) => {
           </Text>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-const TimeSlotSection = ({ startTime, sessions, speakerContainer }) => (
+const TimeSlotSection = ({
+  navigation,
+  startTime,
+  sessions,
+  speakerContainer
+}) => (
   <View style={styles.timeslotSection}>
     {sessions.map((s, i) => (
       <SessionListItem
         key={i}
+        sessionId={s.sessionId}
         startTime={startTime}
         title={s.short_title || s.full_title}
         speakers={
@@ -52,12 +71,14 @@ const TimeSlotSection = ({ startTime, sessions, speakerContainer }) => (
         }
         badge={i === 0}
         link={i < sessions.length - 1}
+        navigation={navigation}
       />
     ))}
   </View>
 );
 
 const DaySection = ({
+  navigation,
   readableDate,
   timeslots,
   sessionContainer,
@@ -73,6 +94,7 @@ const DaySection = ({
         sessions={timeslot.sessionIds.map(id =>
           sessionContainer.getSession(id)
         )}
+        navigation={navigation}
       />
     ))}
   </View>
@@ -88,7 +110,12 @@ class SessionList extends Component {
   };
 
   render() {
-    const { schedule, sessionContainer, speakerContainer } = this.props;
+    const {
+      navigation,
+      schedule,
+      sessionContainer,
+      speakerContainer
+    } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: '#3d4746' }}>
         <ScrollView>
@@ -100,6 +127,7 @@ class SessionList extends Component {
                 timeslots={day.timeslots}
                 sessionContainer={sessionContainer}
                 speakerContainer={speakerContainer}
+                navigation={navigation}
               />
             ))}
           </View>
