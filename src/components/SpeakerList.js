@@ -32,7 +32,7 @@ class SpeakerList extends Component {
                 <TouchableOpacity
                   onPress={() =>
                     this.navigation.navigate('Speaker', {
-                      speakerKey: speaker.speakerId
+                      speakerId: speaker.speakerId
                     })
                   }
                   style={styles.touchableItem}

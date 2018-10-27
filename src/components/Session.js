@@ -25,7 +25,7 @@ class Session extends Component {
         style={styles.speaker}
         onPress={() =>
           this.navigation.navigate('Speaker', {
-            speakerKey: speaker.speakerId
+            speakerId: speaker.speakerId
           })
         }
       >
@@ -46,7 +46,7 @@ class Session extends Component {
     if (this.sessionId < 0) {
       return (
         <View style={styles.container}>
-          <Text h1>Invalid session</Text>
+          <Text h1>Invalid session ID</Text>
         </View>
       );
     }
