@@ -22,7 +22,7 @@ class SpeakerList extends Component {
     const speakers = speakerContainer
       .getSpeakersKeys()
       .map(id => speakerContainer.getSpeaker(id))
-      .sort((a, b) => (a < b ? -1 : 1));
+      .sort((a, b) => (a.name < b.name ? -1 : 1));
     return (
       <View style={{ flex: 1, backgroundColor: '#3d4746' }}>
         <ScrollView>
