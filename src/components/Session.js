@@ -21,7 +21,7 @@ class Session extends Component {
   renderSpeakers(speakers) {
     return speakers.map(speaker => (
       <TouchableOpacity
-        key={speaker.name}
+        key={speaker.speakerId}
         style={styles.speaker}
         onPress={() =>
           this.navigation.navigate('Speaker', {

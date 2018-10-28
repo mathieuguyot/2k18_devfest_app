@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Dimensions,
+  TouchableOpacity
+} from 'react-native';
 import { Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -13,6 +20,24 @@ class Speaker extends Component {
   constructor(props) {
     super(props);
     this.speakerId = this.props.navigation.getParam('speakerId', '-1');
+  }
+
+  renderSessions(sessions) {
+    return sessions.map(session => (
+      <TouchableOpacity
+        key={session.sessionId}
+        style={styles.session}
+        onPress={() =>
+          this.navigation.navigate('Session', {
+            sessionId: session.sessionId
+          })
+        }
+      >
+        <Text style={styles.sessionText}>
+          - {session.short_name || session.full_name}
+        </Text>
+      </TouchableOpacity>
+    ));
   }
 
   render() {
@@ -37,15 +62,30 @@ class Speaker extends Component {
       );
     }
 
+    let sessions = sessionContainer
+      .getSessionsKeys()
+      .map(sid => sessionContainer.getSession(sid))
+      .filter(
+        s =>
+          s.speakers &&
+          (s.speakers.includes(speaker.speakerId) ||
+            s.speakers.includes(`${speaker.speakerId}`)) // This Api is really weird...
+      );
+
     return (
       <ScrollView style={{ backgroundColor: '#3d4746' }}>
         <View style={styles.container}>
           <Text style={styles.title}>{speaker.name}</Text>
           <Image
-            style={{ width: windowWidth, margin: 15, height: '50%' }}
+            style={{
+              width: windowWidth - 48,
+              height: '100%',
+              backgroundColor: 'white'
+            }}
             source={{ uri: `${imageServerUrl}${speaker.speakerPhotoPath}` }}
           />
           <Text style={styles.description}>{speaker.bio}</Text>
+          <View style={styles.sessions}>{this.renderSessions(sessions)}</View>
         </View>
       </ScrollView>
     );
@@ -68,19 +108,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: '#ccc'
   },
-  speakers: {
+  sessions: {
     flex: 1,
     marginTop: 25,
     alignItems: 'flex-start',
     justifyContent: 'flex-start'
   },
-  speaker: {
+  session: {
     height: 60,
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20
   },
-  speakerName: {
+  sessionText: {
     marginLeft: 15,
     fontSize: 20,
     color: '#fff'
