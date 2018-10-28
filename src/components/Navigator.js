@@ -5,6 +5,7 @@ import SpeakerList from './SpeakerList';
 import Speaker from './Speaker';
 import DeviceInfos from './DeviceInfos';
 import Session from './Session';
+import NoteComp from './NoteComp';
 
 export default (Navigator = createStackNavigator(
   {
@@ -25,6 +26,9 @@ export default (Navigator = createStackNavigator(
     },
     Session: {
       screen: Session
+    },
+    Note: {
+      screen: NoteComp
     }
   },
   {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Text, Avatar } from 'react-native-elements';
+import { Text, Avatar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { imageServerUrl } from '../api';
@@ -73,6 +73,21 @@ class Session extends Component {
           <Text style={styles.description}>{session.description}</Text>
           <View style={styles.speakers}>{this.renderSpeakers(speakers)}</View>
         </View>
+        <Button
+            title="Mes notes"
+            buttonStyle={{
+              backgroundColor: '#bf5022',
+              width: 300,
+              height: 45,
+              borderColor: '#ffffff',
+              borderRadius: 100,
+              borderWidth: 0,
+              elevation: 0,
+              alignSelf: 'center',
+              marginBottom: 45
+            }}
+            onPress={() => this.props.navigation.navigate('Note', { sessionKey: this.sessionId })}
+        />
       </ScrollView>
     );
   }

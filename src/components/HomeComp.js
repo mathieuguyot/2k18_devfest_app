@@ -47,11 +47,10 @@ class HomeComp extends Component {
       this.props.dispatch(rehydrateSessions(this.props.sessionJsonStr));
     }
 
-    if (true /* Cache is not working properly !this.props.timeSlotsLoaded*/) {
+    if (!this.props.timeSlotsLoaded) {
       this.props.dispatch(fetchSchedule());
     } else {
       console.log('schedules loaded from phone memory');
-      console.log(this.props.scheduleJsonStr);
       this.props.dispatch(rehydrateSchedule(this.props.scheduleJsonStr));
     }
   }

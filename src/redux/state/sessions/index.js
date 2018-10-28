@@ -6,6 +6,7 @@ const initialState = {
     sessionsLoaded: false,
     sessionJsonStr: "", // Only used for rehydratation
     errorMessage: "",
+    notes: []
 }
 
 // Action types
@@ -13,6 +14,7 @@ export const FETCH_SESSIONS = "sessions/FETCH_SESSIONS";
 export const FETCH_SESSIONS_SUCCESS = "sessions/FETCH_SESSIONS_SUCCESS";
 export const FETCH_SESSIONS_FAIL = "sessions/FETCH_SESSION_FAIL";
 export const REHYDRATE_SESSIONS = "sessions/REHYDRATE_SESSIONS";
+export const ADD_SESSION_NOTE = "sessions/ADD_SESSION_NOTE";
 
 // Actions
 export const fetchSessions = () => ({
@@ -36,6 +38,15 @@ export const rehydrateSessions = (sessionJsonStr) => ({
     type: REHYDRATE_SESSIONS,
     payload: { sessionJsonStr: sessionJsonStr }
 });
+
+export const addSessionNote = (sessionId, txtNote, imgNote) => ({
+    type: ADD_SESSION_NOTE,
+    payload: {
+        sessionId: sessionId,
+        txtNote: txtNote,
+        imgNote: imgNote
+    }
+})
 
 // Reducer
 export default function reducer(state = initialState, action) {
@@ -68,6 +79,30 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 sessionContainer: new SessionContainer(action.payload.sessionJsonStr)
             };    
+
+        case ADD_SESSION_NOTE:
+            notes = [...state.notes]
+            let finded = false;
+            for(let i = 0; i < notes.length; i++) {
+                if(notes[i].sessionId == action.payload.sessionId) {
+                    notes[i].txtNote = action.payload.txtNote;
+                    notes[i].imgNote = action.payload.imgNote;
+                    finded = true;
+                    break;
+                }
+            }
+            if(!finded) {
+                notes.push({
+                    sessionId: action.payload.sessionId,
+                    txtNote: action.payload.txtNote,
+                    imgNote: action.payload.imgNote,
+                })
+            }
+            console.log(notes);
+            return {
+                ...state,
+                notes: notes
+            };
 
         default:
             return state;
